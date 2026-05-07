@@ -29,7 +29,10 @@ class QueryRequest(BaseModel):
 
 class QueryResponse(BaseModel):
     answer: str
+    # sources: retrieval에서 반환된 모든 출처 (관련 후보)
+    # cited_sources: LLM이 답변에서 실제로 인용한 출처 (정확한 근거)
     sources: list[str]
+    cited_sources: list[str]
 
 
 @app.get("/health")
@@ -66,4 +69,8 @@ def query(request: QueryRequest) -> QueryResponse:
         top_k=settings.top_k,
         chat_model=settings.chat_model,
     )
-    return QueryResponse(answer=result.answer, sources=result.sources)
+    return QueryResponse(
+        answer=result.answer,
+        sources=result.sources,
+        cited_sources=result.cited_sources,
+    )
