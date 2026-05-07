@@ -39,17 +39,22 @@
 - GitHub Actions
 
 ### 작업
-- [ ] Dockerfile (slim 이미지, non-root 사용자)
-- [ ] docker-compose.yml (app + Chroma + Redis)
+- [ ] Dockerfile (slim 이미지, non-root 사용자, multi-stage)
 - [ ] .dockerignore
+- [ ] docker-compose.yml (app + Chroma만 — Redis는 Phase 4 캐싱 작업 시 추가)
 - [ ] GitHub Actions: lint → test → build
-- [ ] 이미지 레지스트리 푸시 (GHCR or ECR)
-- [ ] 헬스체크 엔드포인트
+- [ ] 이미지 레지스트리 푸시 (GHCR — Phase 3에서 ECR로 전환)
+- [ ] 헬스체크 엔드포인트 보강 (`/health`는 이미 존재)
+
+### PR 단위 (작게 쪼개기)
+- PR1: Dockerfile + .dockerignore + 로컬 docker run 검증
+- PR2: docker-compose (app + Chroma)
+- PR3: GitHub Actions CI (lint → test → build → GHCR 푸시)
 
 ### 완료 기준
 - `docker compose up` 한 번에 전체 스택 기동
 - main 브랜치 푸시 시 CI 자동 실행
-- 컨테이너 이미지가 레지스트리에 자동 푸시됨
+- 컨테이너 이미지가 GHCR에 자동 푸시됨
 
 ---
 
