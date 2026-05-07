@@ -1,0 +1,59 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Secrets / env
+.env
+.env.*
+!.env.example
+
+# Vector store / data
+chroma_db/
+data/
+*.db
+*.sqlite
+
+# Git / VCS
+.git/
+.gitignore
+.gitattributes
+
+# Claude Code harness
+.claude/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+*.swp
+
+# Tests / docs / samples (not needed in runtime image)
+tests/
+sample_notes/
+*.md
+!README.md
+
+# Build / coverage
+dist/
+build/
+.coverage
+htmlcov/
+coverage.xml
+
+# Docker
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# Logs
+*.log
+logs/
