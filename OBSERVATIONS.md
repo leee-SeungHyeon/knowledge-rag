@@ -81,3 +81,13 @@ YYYY-MM-DD | Phase | 카테고리 | 내용
 - v1 build 루프 + Tier A 훅 조합이 "가벼운 자동 구현 파이프라인"으로 학습 가치 있는 단위 작업(작은 기능, PR 단위)에 충분히 작동함을 검증.
 - 룰 변경(Stage A 사전 점검) 후 회귀 없이 재가동 가능 → 하네스 자체의 안정성 확인.
 - v2(code-reviewer 자동 호출)로 가야 할 신호는 아직 없음. v1 + Tier A로 Phase 3 일부도 시도해보고 한계가 보일 때 승격.
+
+## Phase 2 완료 (2026-05-08)
+
+- 모든 PR(1~4) 머지 + GHA 실행 통과. Phase 2 완료 기준 3개 모두 충족.
+- GHCR 이미지 위치: `ghcr.io/leee-seunghyeon/knowledge-rag:main` (및 `:<sha>`)
+- 패키지 가시성은 기본 private — 학습/포트폴리오 목적이면 Public 전환 권장.
+
+**관찰 (v2 승격 신호 카운트 누적)**
+- 2026-05-08 | Phase 2  | mistake  | PR4 사전 점검에서 "github.repository는 소문자 강제"를 명시적으로 인지했으나 구현에서 lowercase 변환 단계 누락. 첫 GHA 실행에서 `invalid tag: repository name must be lowercase` 실패 → 1회 수정으로 해결. 패턴: 사전 점검에 적은 제약을 구현이 그대로 반영하는지 Stage B 마지막에 한 번 체크해야 함. **v2 승격 카운트 1/3.**
+- 2026-05-08 | Phase 2  | idea     | v1 Stage B 종료 시 "Stage A 사전 점검 항목이 코드에 모두 반영되었나?" 자문 추가 검토. 또는 Stage C 자가 점검의 3번째 항목(수용 기준 자문)에 "사전 점검 제약사항도 반영되었는가" 한 줄 추가.
