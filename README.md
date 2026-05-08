@@ -1,7 +1,19 @@
 # knowledge-rag
 
+[![CI](https://github.com/leee-SeungHyeon/knowledge-rag/actions/workflows/ci.yml/badge.svg)](https://github.com/leee-SeungHyeon/knowledge-rag/actions/workflows/ci.yml)
+
 개인 노트(마크다운)를 인덱싱하고 자연어로 질의응답하는 RAG 시스템.  
 로컬 프로토타입에서 시작해 AWS 클라우드 배포 + Kubernetes 운영까지 단계적으로 진화시키는 학습 프로젝트.
+
+## 컨테이너 이미지
+
+main 브랜치 푸시 시 GitHub Actions가 GHCR로 이미지를 자동 푸시합니다.
+
+```bash
+docker pull ghcr.io/leee-seunghyeon/knowledge-rag:main
+# 또는 특정 커밋 SHA로:
+# docker pull ghcr.io/leee-seunghyeon/knowledge-rag:<git-sha>
+```
 
 ## 목적
 
