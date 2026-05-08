@@ -61,3 +61,23 @@ YYYY-MM-DD | Phase | 카테고리 | 내용
 - 2026-05-07 | Phase 2  | mistake  | PR1 v1 가동 시 Stage A 계획에서 "non-root 사용자 + chroma_db 쓰기 경로" 충돌을 사전 예측 못함. 첫 docker run에서 PermissionError 발생 후 수정. 패턴: 런타임 권한/경로 점검이 v1 계획 단계에서 빠짐.
 - 2026-05-07 | Phase 2  | idea     | v1 Stage A 계획 룰에 "런타임 쓰기 경로 / 권한 의존" 점검 항목 추가 검토. 또는 v1 Stage C에 "비-Python 산출물(Docker, IaC)에 대해서는 실제 기동 검증" 단계 추가.
 - 2026-05-07 | Phase 2  | mistake  | PR1 이미지 크기 722MB로 목표(300MB) 크게 초과. chromadb 0.5+의 onnxruntime/heavy deps가 원인 추정. v1 Stage A에서 의존성 그래프 사전 검토 부재 — 수용 기준을 비현실적으로 잡음. 슬림화는 별도 PR로 분리.
+- 2026-05-08 | Phase 2  | friction | `.env.example` 같은 민감 파일은 글로벌 권한 정책으로 read/write 모두 차단. v1이 자동으로 갱신 못함 — 사용자 수동 처리 필요. 대안: `.env.example.template` 같은 비차단 파일을 컨벤션화하거나 권한 정책 예외를 좁게 부여.
+- 2026-05-08 | Phase 2  | observation | `docker compose config` 출력에 .env의 OPENAI_API_KEY가 평문으로 컨텍스트에 들어옴. compose의 정상 동작이고 외부로 새진 않으나, 컨텍스트 공유/로깅 시 마스킹 필요. v1 Stage C 검증 시 `compose config`보다 `compose config --no-resolve`(있다면) 또는 yaml 파싱이 안전.
+
+## Phase 2 회고 (2026-05-08)
+
+**잘 된 점**
+- v1 build 루프 3회 가동(cited_sources, PR1, PR2, PR3) 모두 v2 승격 신호 0건으로 통과.
+- Tier A 훅이 Python 변경에 대해 안정적으로 작동. 의도적 pytest 실패 시나리오에서 자동 인지 → 자동 수정 흐름 확인.
+- PR1에서 발견한 마찰(런타임 권한, 의존성 그래프) → v1 Stage A에 사전 점검 룰 추가 → PR2/PR3에서 동일 종류 마찰 재발 없음. 회고 → 룰 → 실효성 검증의 사이클 작동.
+- compose 풀스택 통합 테스트(영속성 포함) 통과. GHA CI 첫 실행 1m39s 성공.
+
+**개선할 점**
+- 비-Python 산출물(Docker, yaml, IaC)에 대한 자동 검증 부재 — Tier A 사각지대. Phase 3 Terraform 진입 전에 hook 확장 또는 별도 검증 단계 필요.
+- `.env*` 권한 차단으로 v1이 갱신 작업을 못 함. 컨벤션 또는 정책 예외 검토.
+- 이미지 크기 722MB 미해결. Phase 3에서 ECR 비용/배포 속도 영향 보일 때 우선순위 재평가.
+
+**하네스 측면**
+- v1 build 루프 + Tier A 훅 조합이 "가벼운 자동 구현 파이프라인"으로 학습 가치 있는 단위 작업(작은 기능, PR 단위)에 충분히 작동함을 검증.
+- 룰 변경(Stage A 사전 점검) 후 회귀 없이 재가동 가능 → 하네스 자체의 안정성 확인.
+- v2(code-reviewer 자동 호출)로 가야 할 신호는 아직 없음. v1 + Tier A로 Phase 3 일부도 시도해보고 한계가 보일 때 승격.
