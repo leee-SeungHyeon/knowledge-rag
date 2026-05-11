@@ -91,3 +91,4 @@ YYYY-MM-DD | Phase | 카테고리 | 내용
 **관찰 (v2 승격 신호 카운트 누적)**
 - 2026-05-08 | Phase 2  | mistake  | PR4 사전 점검에서 "github.repository는 소문자 강제"를 명시적으로 인지했으나 구현에서 lowercase 변환 단계 누락. 첫 GHA 실행에서 `invalid tag: repository name must be lowercase` 실패 → 1회 수정으로 해결. 패턴: 사전 점검에 적은 제약을 구현이 그대로 반영하는지 Stage B 마지막에 한 번 체크해야 함. **v2 승격 카운트 1/3.**
 - 2026-05-08 | Phase 2  | idea     | v1 Stage B 종료 시 "Stage A 사전 점검 항목이 코드에 모두 반영되었나?" 자문 추가 검토. 또는 Stage C 자가 점검의 3번째 항목(수용 기준 자문)에 "사전 점검 제약사항도 반영되었는가" 한 줄 추가.
+- 2026-05-11 | 하네스   | idea     | 글로벌 CLAUDE.md를 Karpathy 4원칙 구조(Think Before Coding / Simplicity / Surgical / Goal-Driven)로 재편 (claude-config@ff537ed). 다음 Phase 3 작업에서 #1이 모호한 요청 해석을 줄이는지, #3 "직선 추적" 룰이 PR4 lowercase 누락 같은 사례를 사전에 잡는지 관찰. 효과 미미하면 룰 단순 추가가 아니라 구조 재설계 필요 시그널.
